@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
 import PropTypes from "prop-types";
 
 export const CounterContext = createContext({
@@ -8,21 +8,47 @@ export const CounterContext = createContext({
   reset: () => {},
 });
 
+function counterReducer(state, action) {
+  if (action.type === "INCREASE") {
+    return {
+      count: state.count + 1,
+    };
+  }
+  if (action.type === "DECREASE") {
+    return {
+      count: state.count - 1,
+    };
+  }
+  if (action.type === "RESET") {
+    return {
+      count: 0,
+    };
+  }
+
+  return state;
+}
+
 export default function CounterContextProvider({ children }) {
-  const [counterState, setCounterState] = useState({
+  const [counterState, counterStateDispatch] = useReducer(counterReducer, {
     count: 0,
   });
 
   function increaseCounter() {
-    setCounterState((prevState) => ({ count: prevState.count + 1 }));
+    counterStateDispatch({
+      type: "INCREASE",
+    });
   }
   function decreaseCounter() {
-    setCounterState((prevState) => ({ count: prevState.count - 1 }));
+    counterStateDispatch({
+      type: "DECREASE",
+    });
   }
   function resetCounter() {
-    setCounterState({ count: 0 });
+    counterStateDispatch({
+      type: "RESET",
+    });
   }
-
+  
   const ctxValue = {
     count: counterState.count,
     increase: increaseCounter,

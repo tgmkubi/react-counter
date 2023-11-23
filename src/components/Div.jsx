@@ -7,9 +7,9 @@ export default function Div() {
   return (
     <div className="card">
       <h1>{count}</h1>
-      <button onClick={() => decrease()}>Decrese</button>
-      <button onClick={() => reset()}>Reset</button>
-      <button onClick={() => increase()}>Increse</button>
+      <button onClick={decrease}>Decrese</button>
+      <button onClick={reset}>Reset</button>
+      <button onClick={increase}>Increse</button>
     </div>
   );
 }
